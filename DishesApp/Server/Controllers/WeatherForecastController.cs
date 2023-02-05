@@ -1,5 +1,6 @@
-using DishesApp.Shared.Models;
+
 using Microsoft.AspNetCore.Mvc;
+using ModelsLibrary;
 
 namespace DishesApp.Server.Controllers
 {

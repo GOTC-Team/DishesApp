@@ -1,4 +1,4 @@
-﻿namespace DishesApp.Client.Static
+﻿namespace Client.Static
 {
     public static class APIEndpoints
     {

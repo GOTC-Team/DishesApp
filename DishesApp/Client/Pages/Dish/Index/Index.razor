@@ -1,0 +1,63 @@
+@namespace Client.Pages.Dashboard.Analysis
+@page "/"
+@using Client.Models.MyModels;
+@using Client.Pages.List
+@inject NavigationManager _navigationManager
+<GridContent>
+    <SalesCard />
+</GridContent>
+<div class="coverCardList">
+    <Card>
+        <Form Model="_model"
+              Layout="inline">
+            <StandardFormRow Title="Categories">
+                <SimpleSelect Mode="multiple" Style="width:inherit; min-width:150px" OnSelectedItemsChanged="HandleCategoryItemsChange">
+                    <SelectOptions>
+                        @foreach (var category in _categories.CategoriesList)
+                        {
+                            <SimpleSelectOption Value="@category.strCategory" Label="@category.strCategory"></SimpleSelectOption>
+                        }
+                    </SelectOptions>
+                </SimpleSelect>
+            </StandardFormRow>
+        </Form>
+    </Card>
+    <div class="cardList">
+        <AntList TItem="Meal"
+                 Grid="_listGridType"
+                 DataSource="_meals">
+            <ListItem NoFlex>
+                <a @onclick='() => _navigationManager.NavigateTo("/dishes/details/" + context.idMeal)'>
+                    <Card Class="card" Hoverable Bordered Style="margin:5px">
+                        <Cover>
+                            <img alt="@context.strMeal" src="@context.strMealThumb" />
+                        </Cover>
+                        <ChildContent>
+                            <CardMeta>
+                                <DescriptionTemplate>@context.strTags</DescriptionTemplate>
+                                <TitleTemplate>@context.strMeal</TitleTemplate>
+                            </CardMeta>
+                            <div class="cardItemContent">
+                                <span>@context.dateModified</span>
+                                @if(!String.IsNullOrWhiteSpace(context.strArea))
+                                {
+                                    <span>Country: @context.strArea</span> <br/>
+                                }
+                                @if(context.Indgridients.Count > 0)
+                                {
+                                    @foreach (var tag in context.Indgridients)
+                                    {
+                                        @if(!String.IsNullOrWhiteSpace(tag))
+                                        {
+                                            <Tag Style="margin:1px" PresetColor="PresetColor.Green">@tag</Tag>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </ChildContent>
+                    </Card>
+                </a>
+            </ListItem>
+        </AntList>
+    </div>
+</div>

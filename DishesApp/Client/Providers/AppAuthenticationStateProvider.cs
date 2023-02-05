@@ -1,9 +1,13 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
-namespace DishesApp.Client.Providers
+namespace Client.Providers
 {
     public class AppAuthenticationStateProvider : AuthenticationStateProvider
     {
@@ -24,11 +28,11 @@ namespace DishesApp.Client.Providers
                 if (string.IsNullOrWhiteSpace(savedToken))
                 {
                     return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-                }
+                } 
                 JwtSecurityToken jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(savedToken);
                 DateTime expirationDate = jwtSecurityToken.ValidTo;
-
-                if (expirationDate < DateTime.UtcNow)
+                
+                if(expirationDate < DateTime.UtcNow)
                 {
                     await _localStorageService.RemoveItemAsync("bearerToken");
                     return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
@@ -39,7 +43,7 @@ namespace DishesApp.Client.Providers
                 var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
                 return new AuthenticationState(user);
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
