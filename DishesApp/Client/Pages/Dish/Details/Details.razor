@@ -1,0 +1,158 @@
+﻿@namespace Client.Pages.Dashboard.Monitor
+@inject HttpClient _httpClient
+@page "/dishes/details/{DishId}"
+@using Client.Models.MyModels;
+
+<GridContent>
+    <AntDesign.Col Xl="24" Lg="24" Md="24" Sm="24" Xs="24" Style="margin-bottom: 24px;">
+        <Card>
+            <Row Style="margin-bottom:10px">
+                <AntDesign.Col Md="9" Sm="12" Xs="24">
+                    <Image Src="@_meal.strMealThumb" Alt="@_meal.strMealThumb" PreviewSrc="@_meal.strMealThumb" PreviewVisible="true"/>
+                    @if (!String.IsNullOrEmpty(_meal.strYoutube))
+                    {
+                        <iframe src="@normalizedVideoSrc" style="width: 100%; height:500px"
+                            frameborder="0"
+                            allowfullscreen></iframe>
+                    }
+                </AntDesign.Col>
+                <AntDesign.Col Md="15" Sm="12" Xs="24">
+                    <Card Style="font-size:12pt" Title="@_meal.strMeal" Bordered="false">
+                        @if (!String.IsNullOrWhiteSpace(_meal.strTags))
+                        {
+                            @foreach (var tag in _meal.strTags.Split(','))
+                            {
+                                <Tag Style="margin:1px" Color="PresetColor.Green">@tag</Tag>
+                            }
+                        }
+                        @if (!String.IsNullOrWhiteSpace(_meal.strArea))
+                        {
+                            <h1>Area: @_meal.strArea</h1>
+                        }
+                        @if (!String.IsNullOrWhiteSpace(_meal.strCategory))
+                        {
+                            <h1>Category: @_meal.strCategory</h1>
+                        }
+                        @if (!String.IsNullOrWhiteSpace(_meal.strInstructions))
+                        {
+                            <Steps Direction="vertical" Size="small">
+                                @for (int i = 1; i < _meal.strInstructions.Split('.').Length - 1; i++)
+                                {
+                                    if (i == _meal.strInstructions.Split('.').Length - 2)
+                                    {
+                                        <Step Title="Finish" Style="font-size:12pt !important" Description="@_meal.strInstructions.Split('.')[i]" />
+                                    }
+                                    else
+                                    {
+                                        <Step Title="@i.ToString()" Style="font-size:12pt !important" Description="@_meal.strInstructions.Split('.')[i]" />
+                                    }
+                                }
+                            </Steps>
+                        }
+                        @if (!String.IsNullOrWhiteSpace(_meal.strSource))
+                        {
+                            <h1><a href="@_meal.strSource">Source</a></h1>
+                        }
+                    </Card>
+                </AntDesign.Col>
+            </Row>
+        </Card>
+    </AntDesign.Col>
+</GridContent>
+
+@code
+{
+    [Parameter]
+    public string? DishId { get; set; }
+    private Meal _meal { get; set; } = new Meal();
+    private string? normalizedVideoSrc { get; set; }
+    private int _counterSteps { get; set; } = 1;
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var res = await _httpClient.GetFromJsonAsync<Meals>($"https://www.themealdb.com/api/json/v1/1/lookup.php?i={DishId}");
+        if (res != null)
+        {
+            foreach (var mealFromAPI in res.MealsList)
+            {
+                _meal.dateModified = mealFromAPI.dateModified;
+                _meal.idMeal = mealFromAPI.idMeal;
+                _meal.strArea = mealFromAPI.strArea;
+                _meal.strCategory = mealFromAPI.strCategory;
+                _meal.strCreativeCommonsConfirmed = mealFromAPI.strCreativeCommonsConfirmed;
+                _meal.strDrinkAlternate = mealFromAPI.strDrinkAlternate;
+                _meal.strInstructions = mealFromAPI.strInstructions;
+                _meal.strImageSource = mealFromAPI.strImageSource;
+                _meal.strIngredient1 = mealFromAPI.strIngredient1;
+                _meal.strIngredient2 = mealFromAPI.strIngredient2;
+                _meal.strIngredient3 = mealFromAPI.strIngredient3;
+                _meal.strIngredient4 = mealFromAPI.strIngredient4;
+                _meal.strIngredient5 = mealFromAPI.strIngredient5;
+                _meal.strIngredient6 = mealFromAPI.strIngredient6;
+                _meal.strIngredient7 = mealFromAPI.strIngredient7;
+                _meal.strIngredient8 = mealFromAPI.strIngredient8;
+                _meal.strIngredient9 = mealFromAPI.strIngredient9;
+                _meal.strIngredient10 = mealFromAPI.strIngredient10;
+                _meal.strIngredient11 = mealFromAPI.strIngredient11;
+                _meal.strIngredient12 = mealFromAPI.strIngredient12;
+                _meal.strIngredient13 = mealFromAPI.strIngredient13;
+                _meal.strIngredient14 = mealFromAPI.strIngredient14;
+                _meal.strIngredient15 = mealFromAPI.strIngredient15;
+                _meal.strIngredient16 = mealFromAPI.strIngredient16;
+                _meal.strIngredient17 = mealFromAPI.strIngredient17;
+                _meal.strIngredient18 = mealFromAPI.strIngredient18;
+                _meal.strIngredient19 = mealFromAPI.strIngredient19;
+                _meal.strIngredient20 = mealFromAPI.strIngredient20;
+                _meal.strMeal = mealFromAPI.strMeal;
+                _meal.strMealThumb = mealFromAPI.strMealThumb;
+                _meal.strMeasure1 = mealFromAPI.strMeasure1;
+                _meal.strMeasure2 = mealFromAPI.strMeasure1;
+                _meal.strMeasure3 = mealFromAPI.strMeasure1;
+                _meal.strMeasure4 = mealFromAPI.strMeasure1;
+                _meal.strMeasure5 = mealFromAPI.strMeasure1;
+                _meal.strMeasure6 = mealFromAPI.strMeasure1;
+                _meal.strMeasure7 = mealFromAPI.strMeasure1;
+                _meal.strMeasure8 = mealFromAPI.strMeasure1;
+                _meal.strMeasure9 = mealFromAPI.strMeasure1;
+                _meal.strMeasure10 = mealFromAPI.strMeasure1;
+                _meal.strMeasure11 = mealFromAPI.strMeasure1;
+                _meal.strMeasure12 = mealFromAPI.strMeasure1;
+                _meal.strMeasure13 = mealFromAPI.strMeasure1;
+                _meal.strMeasure14 = mealFromAPI.strMeasure1;
+                _meal.strMeasure15 = mealFromAPI.strMeasure1;
+                _meal.strMeasure16 = mealFromAPI.strMeasure1;
+                _meal.strMeasure17 = mealFromAPI.strMeasure1;
+                _meal.strMeasure18 = mealFromAPI.strMeasure1;
+                _meal.strMeasure19 = mealFromAPI.strMeasure1;
+                _meal.strMeasure20 = mealFromAPI.strMeasure1;
+                _meal.strSource = mealFromAPI.strSource;
+                _meal.strTags = mealFromAPI.strTags;
+                _meal.strYoutube = mealFromAPI.strYoutube;
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient1, mealFromAPI.strMeasure1));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient2, mealFromAPI.strMeasure2));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient3, mealFromAPI.strMeasure3));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient4, mealFromAPI.strMeasure4));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient5, mealFromAPI.strMeasure5));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient6, mealFromAPI.strMeasure6));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient7, mealFromAPI.strMeasure7));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient8, mealFromAPI.strMeasure8));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient9, mealFromAPI.strMeasure9));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient10, mealFromAPI.strMeasure10));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient11, mealFromAPI.strMeasure11));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient12, mealFromAPI.strMeasure12));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient13, mealFromAPI.strMeasure13));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient14, mealFromAPI.strMeasure14));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient15, mealFromAPI.strMeasure15));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient16, mealFromAPI.strMeasure16));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient17, mealFromAPI.strMeasure17));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient18, mealFromAPI.strMeasure18));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient19, mealFromAPI.strMeasure19));
+                _meal.IndgridientsForDetails.Add(new(mealFromAPI.strIngredient20, mealFromAPI.strMeasure10));
+                // Change video tag
+                normalizedVideoSrc = _meal.strYoutube.Replace("watch?v=", "embed/");
+            }
+        }
+    }
+
+    private readonly DateTime _deadline = DateTime.Now.AddMilliseconds(1000 * 60 * 60 * 24 * 2 + 1000 * 30);
+}

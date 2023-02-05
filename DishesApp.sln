@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33312.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DishesApp.Server", "DishesApp\Server\DishesApp.Server.csproj", "{3A3ECE82-BFFA-4C48-81D6-B510C08D56C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DishesApp.Server", "DishesApp\Server\DishesApp.Server.csproj", "{3A3ECE82-BFFA-4C48-81D6-B510C08D56C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DishesApp.Client", "DishesApp\Client\DishesApp.Client.csproj", "{ED1AD901-5A98-452C-8274-B50599283035}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "DishesApp\Client\Client.csproj", "{933EBF97-1AB3-48F3-8FAE-92CF5B5B5F2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DishesApp.Shared", "DishesApp\Shared\DishesApp.Shared.csproj", "{A2A0A16C-D6B1-4C22-ACFF-4A83EE25A547}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelsLibrary", "ModelsLibrary\ModelsLibrary.csproj", "{6C3C21EF-B201-40CC-84CE-9B114B4CD9A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{3A3ECE82-BFFA-4C48-81D6-B510C08D56C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A3ECE82-BFFA-4C48-81D6-B510C08D56C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A3ECE82-BFFA-4C48-81D6-B510C08D56C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED1AD901-5A98-452C-8274-B50599283035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED1AD901-5A98-452C-8274-B50599283035}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED1AD901-5A98-452C-8274-B50599283035}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED1AD901-5A98-452C-8274-B50599283035}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2A0A16C-D6B1-4C22-ACFF-4A83EE25A547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2A0A16C-D6B1-4C22-ACFF-4A83EE25A547}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2A0A16C-D6B1-4C22-ACFF-4A83EE25A547}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2A0A16C-D6B1-4C22-ACFF-4A83EE25A547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{933EBF97-1AB3-48F3-8FAE-92CF5B5B5F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{933EBF97-1AB3-48F3-8FAE-92CF5B5B5F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{933EBF97-1AB3-48F3-8FAE-92CF5B5B5F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{933EBF97-1AB3-48F3-8FAE-92CF5B5B5F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3C21EF-B201-40CC-84CE-9B114B4CD9A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3C21EF-B201-40CC-84CE-9B114B4CD9A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3C21EF-B201-40CC-84CE-9B114B4CD9A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3C21EF-B201-40CC-84CE-9B114B4CD9A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

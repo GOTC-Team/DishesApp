@@ -1,0 +1,14 @@
+﻿@namespace Client.Components
+@inherits AntDomComponentBase
+
+<Space Class="@ClassMapper.Class" Size="@("24")">
+    <SpaceItem>
+        <AvatarDropdown Name="@_currentUser.Name"
+                        Avatar="@_currentUser.Avatar"
+                        MenuItems="@AvatarMenuItems"
+                        OnItemSelected="HandleSelectUser" />
+    </SpaceItem>
+    <SpaceItem>
+        <SelectLang OnItemSelected="HandleSelectLang" />
+    </SpaceItem>
+</Space>
