@@ -1,4 +1,4 @@
-namespace DishesApp.Shared
+namespace DishesApp.Shared.Models
 {
     public class WeatherForecast
     {
