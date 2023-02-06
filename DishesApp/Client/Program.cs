@@ -1,6 +1,9 @@
 using AntDesign.ProLayout;
+using Blazored.LocalStorage;
+using Client.Providers;
 using Client.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -38,7 +41,15 @@ namespace Client
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IProfileService, ProfileService>();
+            // Authorization services
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AppAuthenticationStateProvider>();
+            builder.Services.AddScoped<AuthenticationStateProvider>(provider
+                => provider.GetRequiredService<AppAuthenticationStateProvider>());
+            // Cute UI
             builder.Services.AddSweetAlert2();
+
             await builder.Build().RunAsync();
         }
     }

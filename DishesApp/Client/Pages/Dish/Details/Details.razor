@@ -11,7 +11,7 @@
                     <Image Src="@_meal.strMealThumb" Alt="@_meal.strMealThumb" PreviewSrc="@_meal.strMealThumb" PreviewVisible="true"/>
                     @if (!String.IsNullOrEmpty(_meal.strYoutube))
                     {
-                        <iframe src="@normalizedVideoSrc" style="width: 100%; height:500px"
+                        <iframe src="@normalizedVideoSrc" style="width: 100%; height:500px; margin-top:10px"
                             frameborder="0"
                             allowfullscreen></iframe>
                     }

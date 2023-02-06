@@ -11,14 +11,14 @@
             <div class="header">
                 <a>
                     <img alt="logo" class="logo" src="assets/logo.svg" />
-                    <span class="title">Ant Design</span>
+                    <span class="title">Smart Cooker</span>
                 </a>
             </div>
-            <div class="desc">Ant Design Blazor</div>
+            <div class="desc">Make it easier!</div>
         </div>
         @Body
     </div>
-    <FooterView Copyright="2021 Ant Design Blazor" Links="Links"></FooterView>
+    <FooterView Copyright="2021 Smart Cooker" Links="Links"></FooterView>
 </div>
 
 @code
@@ -27,23 +27,9 @@
     {
         new LinkItem
         {
-            Key = "Ant Design Blazor",
-            Title = "Ant Design Blazor",
-            Href = "https://antblazor.com",
-            BlankTarget = true,
-        },
-        new LinkItem
-        {
             Key = "github",
             Title = (RenderFragment)(@<Icon Type="github" />),
-            Href = "https://github.com/ant-design-blazor/ant-design-pro-blazor",
-            BlankTarget = true,
-        },
-        new LinkItem
-        {
-            Key = "Blazor",
-            Title = "Blazor",
-            Href = "https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor?WT.mc_id=DT-MVP-5003987",
+            Href = "https://github.com/GOTC-Team/DishesApp.git",
             BlankTarget = true,
         }
     };

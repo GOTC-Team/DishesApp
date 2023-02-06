@@ -8,15 +8,19 @@
         <h3>Registration</h3>
         <Form Model="@_userToRegister">
             <FormItem>
-                <Input Placeholder="Mailbox" @bind-Value="_userToRegister.UserName" Size="@InputSize.Large"></Input>
+                <AntDesign.Input Placeholder="Username" Size="large" @bind-Value="@_userToRegister.UserName">
+                    <Prefix><Icon Type="user" /></Prefix>
+                </AntDesign.Input>
             </FormItem>
-
             <FormItem>
-                <Input Placeholder="At Least 6-Digit Password, Case Sensitive" @bind-Value="_userToRegister.Password" Size="@InputSize.Large" Type="password"></Input>
+                <AntDesign.Input Placeholder="Email" Size="large" @bind-Value="@_userToRegister.EmailAdress" Type="email">
+                    <Prefix><Icon Type="mail" /></Prefix>
+                </AntDesign.Input>
             </FormItem>
-
             <FormItem>
-                <Input Placeholder="user@example.com" @bind-Value="_userToRegister.EmailAdress" Size="@InputSize.Large" Type="email"></Input>
+                <AntDesign.Input Placeholder="Password" Size="large" @bind-Value="@_userToRegister.Password" Type="password">
+                    <Prefix><Icon Type="lock" /></Prefix>
+                </AntDesign.Input>
             </FormItem>
 
             <FormItem>
