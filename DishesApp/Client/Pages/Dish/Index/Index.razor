@@ -38,10 +38,9 @@
                                 <TitleTemplate>@context.strMeal</TitleTemplate>
                             </CardMeta>
                             <div class="cardItemContent">
-                                <span>@context.dateModified</span>
                                 @if(!String.IsNullOrWhiteSpace(context.strArea))
                                 {
-                                    <span>Country: @context.strArea</span> <br/>
+                                    <span>Area: @context.strArea</span> <br/>
                                 }
                                 @if(context.Indgridients.Count > 0)
                                 {

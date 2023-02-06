@@ -1,3 +1,4 @@
+using DishesApp.Server.Data;
 using DishesApp.Server.Data.DbModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Server.Data;
+using System.Configuration;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,7 +77,10 @@ app.UseStaticFiles(new StaticFileOptions()
         context.Context.Response.Headers.Add("Expires", "-1");
     }
 });
-
+// Initialize database with data from themealdb.com
+//InitIngredients _initProductsToDb = new InitIngredients(builder.Services.BuildServiceProvider().GetService<AppDbContext>());
+//_initProductsToDb.Init();
+//
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
