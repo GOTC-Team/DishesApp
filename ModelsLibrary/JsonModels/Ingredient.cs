@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelsLibrary.JsonModels
 {
-    public class Ingredient
+    public class IngredientDTO
     {
         [JsonPropertyName("strIngredient")]
         public string? Name { get; set; }
@@ -16,9 +16,9 @@ namespace ModelsLibrary.JsonModels
     {
         public IngredientsList()
         {
-            Ingredients = new List<Ingredient>();
+            Ingredients = new List<IngredientDTO>();
         }
         [JsonPropertyName("meals")]
-        public List<Ingredient> Ingredients { get; set; }
+        public List<IngredientDTO> Ingredients { get; set; }
     }
 }

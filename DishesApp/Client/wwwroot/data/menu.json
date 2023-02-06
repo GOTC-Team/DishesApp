@@ -6,6 +6,12 @@
     "icon": "profile"
   },
   {
+    "path": "/my-products",
+    "name": "My Products",
+    "key": "my-products",
+    "icon": "profile"
+  },
+  {
     "path": "/list",
     "name": "List",
     "key": "list",
