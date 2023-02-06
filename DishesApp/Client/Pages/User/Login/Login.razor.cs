@@ -1,36 +1,50 @@
 ﻿using AntDesign;
+using Blazored.LocalStorage;
 using Client.Models;
+using Client.Providers;
 using Client.Services;
+using Client.Static;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using ModelsLibrary;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace Client.Pages.User
 {
     public partial class Login
     {
-        private readonly LoginParamsType _model = new LoginParamsType();
+        [Inject] HttpClient HttpClient { get; set; }
+        [Inject] ILocalStorageService LocalStorageService { get; set; }
+        [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject] SweetAlertService Swal { get; set; }
+        [Inject] NavigationManager _navigationManager { get; set; }
 
-        [Inject] public NavigationManager NavigationManager { get; set; }
+        private UserDTO _userToSignIn = new UserDTO();
+        private bool _signInSuccessful = false;
+        private bool _attemptToSignInFailed = false;
 
-        [Inject] public IAccountService AccountService { get; set; }
-
-        [Inject] public MessageService Message { get; set; }
-
-        public void HandleSubmit()
+        private async Task SignInUser()
         {
-            if (_model.UserName == "admin" && _model.Password == "ant.design")
+            _attemptToSignInFailed = false;
+            HttpResponseMessage httpResponseMessage = await HttpClient.PostAsJsonAsync(APIEndpoints.s_signIn, _userToSignIn);
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                NavigationManager.NavigateTo("/");
-                return;
+                string jsonWebToken = await httpResponseMessage.Content.ReadAsStringAsync();
+                await LocalStorageService.SetItemAsync("bearerToken", jsonWebToken);
+                await ((AppAuthenticationStateProvider)AuthenticationStateProvider).SignIn();
+
+                HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", jsonWebToken);
+                _signInSuccessful = true;
+                await Swal.FireAsync($"Hello, {_userToSignIn.UserName}!");
+                _navigationManager.NavigateTo("/");
             }
-
-            if (_model.UserName == "user" && _model.Password == "ant.design") NavigationManager.NavigateTo("/");
-        }
-
-        public async Task GetCaptcha()
-        {
-            var captcha = await AccountService.GetCaptchaAsync(_model.Mobile);
-            await Message.Success($"Verification code validated successfully! The verification code is: {captcha}");
+            else
+            {
+                _attemptToSignInFailed = true;
+            }
         }
     }
 }

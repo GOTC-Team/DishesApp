@@ -24,20 +24,18 @@ namespace Client.Pages.User
         {
             _attemptToRegisterFailed = false;
             HttpResponseMessage httpResponseMessage = await HttpClient.PostAsJsonAsync(APIEndpoints.s_register, _userToRegister);
-            Console.WriteLine(_userToRegister.UserName + " USERNAME");
-            Console.WriteLine(_userToRegister.Password + " Password");
-            Console.WriteLine(_userToRegister.EmailAdress + " EMAIL");
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 _registerSuccessful = true;
                 await Swal.FireAsync($"Hello, {_userToRegister.UserName}!");
-                _navigationManager.NavigateTo("/");
+                _navigationManager.NavigateTo("/user/login");
             }
             else
             {
                 string serverErrorMessages = await httpResponseMessage.Content.ReadAsStringAsync();
                 _attemptToRegisterFailedErrorMessage = $"{serverErrorMessages} Change data and try again.";
+                await Swal.FireAsync($"{_attemptToRegisterFailedErrorMessage}");
                 _attemptToRegisterFailed = true;
             }
         }
