@@ -61,7 +61,7 @@ namespace Client.Components
                     NavigationManager.NavigateTo("/account/settings");
                     break;
                 case "logout":
-                    await SignOut(); /// user/login
+                    await SignOut();
                     break;
             }
         }

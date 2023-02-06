@@ -1,3 +1,5 @@
+@inject NavigationManager NavigationManager
+
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
@@ -5,7 +7,13 @@
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(BasicLayout)">
-                <p>Sorry, there's nothing at this address.</p>
+                <Result Status="404"
+                        Title="404"
+                        SubTitle="Sorry, the page you visited does not exist.">
+                    <Extra>
+                        <Button Type="primary" OnClick="@(()=> {NavigationManager.NavigateTo("/");})">Back Home</Button>
+                    </Extra>
+                </Result>
             </LayoutView>
         </NotFound>
     </Router>
