@@ -3,6 +3,8 @@
 @using Client.Models.MyModels;
 @using Client.Pages.List
 @inject NavigationManager _navigationManager
+@inject IMessageService _message
+
 <GridContent>
     <SalesCard />
 </GridContent>
@@ -10,15 +12,16 @@
     <Card>
         <Form Model="_model"
               Layout="inline">
-            <StandardFormRow Title="Categories">
-                <SimpleSelect Mode="multiple" Style="width:100%; min-width:150px" OnSelectedItemsChanged="HandleCategoryItemsChange">
-                    <SelectOptions>
-                        @foreach (var category in _categories.CategoriesList)
-                        {
-                            <SimpleSelectOption Value="@category.strCategory" Label="@category.strCategory"></SimpleSelectOption>
-                        }
-                    </SelectOptions>
-                </SimpleSelect>
+            <StandardFormRow>
+                <h3>Selected category: <b>@_selectedCategoryName</b></h3>
+                <br/>
+                <RadioGroup @bind-Value="@_selectedCategoryName">
+                    @foreach (var category in _categories.CategoriesList)
+                    {
+                        <Radio Value="@category.strCategory">@category.strCategory</Radio>
+                    }
+                </RadioGroup>
+                <Button Type="@ButtonType.Primary" OnClick="FindMeals">Find Meals</Button>
             </StandardFormRow>
         </Form>
     </Card>
@@ -46,9 +49,14 @@
                                 {
                                     @foreach (var tag in context.Indgridients)
                                     {
-                                        @if(!String.IsNullOrWhiteSpace(tag))
+                                        @if(!String.IsNullOrWhiteSpace(tag) && _isAuthenticated && _userIngredients.Any(i => i.Name == tag) 
+                                        || !_isAuthenticated && !String.IsNullOrEmpty(tag))
                                         {
                                             <Tag Style="margin:1px" PresetColor="PresetColor.Green">@tag</Tag>
+                                        }
+                                        else if (!String.IsNullOrWhiteSpace(tag))
+                                        {
+                                            <Tag Style="margin:1px" PresetColor="PresetColor.Red">@tag</Tag>
                                         }
                                     }
                                 }

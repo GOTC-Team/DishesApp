@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ModelsLibrary.JsonModels
 {
-    public class ProductDTO
+    public class MealDTO
     {
+        public int Id { get; set; }
         public string? ProductName { get; set; }
         public string? CategoryName { get; set; }
         public string? Instructions { get; set; }
