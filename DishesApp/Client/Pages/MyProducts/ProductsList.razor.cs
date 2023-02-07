@@ -1,7 +1,6 @@
 using AntDesign;
 using AntDesign.ProLayout;
 using Client.Models;
-using Client.Services;
 using Client.Static;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -29,7 +28,6 @@ namespace Client.Pages.MyProducts
             Xxl = 4,
         };
         [Inject] HttpClient HttpClient { get; set; }
-        [Inject] public IProjectService ProjectService { get; set; }
         [Inject] protected NavigationManager NavigationManager { get; set; }
         [CascadingParameter] protected Task<AuthenticationState> AuthenticationState { get; set; }
         //

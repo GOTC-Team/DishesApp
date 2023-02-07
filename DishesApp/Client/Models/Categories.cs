@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Client.Models.MyModels
+namespace Client.Models
 {
     public class Categories
     {
