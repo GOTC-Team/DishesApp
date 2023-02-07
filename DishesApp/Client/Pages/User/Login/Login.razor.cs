@@ -2,7 +2,6 @@
 using Blazored.LocalStorage;
 using Client.Models;
 using Client.Providers;
-using Client.Services;
 using Client.Static;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;

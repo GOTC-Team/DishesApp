@@ -1,5 +1,4 @@
 using AntDesign.Charts;
-using Client.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -48,7 +47,6 @@ namespace Client.Pages.Dashboard.Analysis
             new SaleItem {Id = 7, Title = "Gongzhuan No.6 shop", Total = "323,234"}
         };
 
-        [Inject] public IChartService ChartService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -58,7 +56,6 @@ namespace Client.Pages.Dashboard.Analysis
 
         private async Task OnTabChanged(string activeKey)
         {
-            var data = await ChartService.GetSalesDataAsync();
             //if (activeKey == "1")
                 //await _saleChart.ChangeData(data);
             //else

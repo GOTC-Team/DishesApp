@@ -1,7 +1,6 @@
 using AntDesign.ProLayout;
 using Blazored.LocalStorage;
 using Client.Providers;
-using Client.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -36,11 +35,6 @@ namespace Client
                 x.FooterRender = true;
                 x.HeaderRender = true;
             });
-            builder.Services.AddScoped<IChartService, ChartService>();
-            builder.Services.AddScoped<IProjectService, ProjectService>();
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IAccountService, AccountService>();
-            builder.Services.AddScoped<IProfileService, ProfileService>();
             // Authorization services
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();

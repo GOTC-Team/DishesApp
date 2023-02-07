@@ -1,7 +1,6 @@
 ﻿using AntDesign;
 using Client.Models.MyModels;
 using Client.Models;
-using Client.Services;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
 using System.Net.Http;
@@ -39,40 +38,6 @@ namespace Client.Pages.Dashboard.Analysis
             Xxl = 4,
         };
 
-        private readonly FormItemLayout _formItemLayout = new FormItemLayout
-        {
-            WrapperCol = new ColLayoutParam
-            {
-                Xs = new EmbeddedProperty { Span = 24 },
-                Sm = new EmbeddedProperty { Span = 16 },
-            }
-        };
-        private readonly ListFormModel _model = new ListFormModel();
-
-        private IList<ListItemDataType> _fakeList = new List<ListItemDataType>();
-        private async Task HandleCategoryItemsChange(IEnumerable<string> selectedCategories)
-        {
-
-            if (selectedCategories != null)
-            {
-                _selectedCategoriesNames = selectedCategories.ToList();
-                int ids = 0;
-                foreach (var categoryName in _selectedCategoriesNames)
-                {
-                    // Meals list
-                    var resultMealsIds = await _httpClient.GetFromJsonAsync<Meals>($"https://www.themealdb.com/api/json/v1/1/filter.php?c={categoryName}");
-                    if (resultMealsIds != null)
-                    {
-                        foreach (var meal in resultMealsIds.MealsList)
-                        {
-                            ids++;
-                        }
-                    }
-                }
-                await _message.Info(ids.ToString());
-            }
-        }
-        [Inject] public IProjectService ProjectService { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
