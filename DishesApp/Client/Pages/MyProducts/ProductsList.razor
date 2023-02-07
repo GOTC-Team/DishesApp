@@ -5,131 +5,84 @@
 @using Client.Pages.List
 @using ModelsLibrary.JsonModels;
 @inject SweetAlertService Swal
-
-<PageContainer Title="Search">
-    <Breadcrumb>
+@if (!_isAuthenticated)
+{
+    NavigationManager.NavigateTo("/exception/403");
+}
+else
+{
+    <PageContainer Title="Search">
         <Breadcrumb>
-            <BreadcrumbItem>My Products</BreadcrumbItem>
-            <BreadcrumbItem>Search</BreadcrumbItem>
+            <Breadcrumb>
+                <BreadcrumbItem>My Products</BreadcrumbItem>
+                <BreadcrumbItem>Search</BreadcrumbItem>
+            </Breadcrumb>
         </Breadcrumb>
-    </Breadcrumb>
-    <Content>
-        <Mentions Placeholder="please enter @@" @bind-Value="value">
-            <MentionsOption Value="afc163">afc163</MentionsOption>
-        </Mentions>
-    </Content>
-    <ChildContent>
-        <Button OnClick="Click">CHECK</Button>
-        <div class="filterCardList">
-            <Card>
-                <Form Model="_model"
-                      Layout="inline">
-                    <StandardFormRow Title="Category" Block Style="padding-bottom: 11px">
-                        <FormItem>
-                            <TagSelect Expandable Value="_selectCategories">
-                                <TagSelectOption Value="cat1">Category 1</TagSelectOption>
-                                <TagSelectOption Value="cat2">Category 2</TagSelectOption>
-                                <TagSelectOption Value="cat3">Category 3</TagSelectOption>
-                                <TagSelectOption Value="cat4">Category 4</TagSelectOption>
-                                <TagSelectOption Value="cat5">Category 5</TagSelectOption>
-                                <TagSelectOption Value="cat6">Category 6</TagSelectOption>
-                                <TagSelectOption Value="cat7">Category 7</TagSelectOption>
-                                <TagSelectOption Value="cat8">Category 8</TagSelectOption>
-                                <TagSelectOption Value="cat9">Category 9</TagSelectOption>
-                                <TagSelectOption Value="cat10">Category 10</TagSelectOption>
-                                <TagSelectOption Value="cat11">Category 11</TagSelectOption>
-                                <TagSelectOption Value="cat12">Category 12</TagSelectOption>
-                            </TagSelect>
-                        </FormItem>
-                    </StandardFormRow>
-                    <StandardFormRow Title="Other Options" Grid Last>
-                        <Row Gutter="16">
-                            <AntDesign.Col Lg="8" Md="10" Sm="10" Xs="24">
-                                <FormItem Label="Author">
-                                    <Select TItem="string"
-                                            TItemValue="string"
-                                            Placeholder="All"
-                                            Style="max-width: 200px; width: 100%;"
-                                            @bind-Value="_model.ActiveUser">
-                                        <SelectOptions>
-                                            <SelectOption TItem="string" TItemValue="string" Value="@("lisa")" Label="Wang Zhaojun" />
-                                        </SelectOptions>
-                                    </Select>
-                                </FormItem>
-                            </AntDesign.Col>
-                            <AntDesign.Col Lg="8" Md="10" Sm="10" Xs="24">
-                                <FormItem Label="Rating">
-                                    <Select TItem="string"
-                                            TItemValue="string"
-                                            Placeholder="All"
-                                            Style="max-width: 200px; width: 100%;"
-                                            @bind-Value="_model.Satisfaction">
-                                        <SelectOptions>
-                                            <SelectOption TItem="string" TItemValue="string" Value="@("good")" Label="Excellent" />
-                                            <SelectOption TItem="string" TItemValue="string" Value="@("normal")" Label="Normal" />
-                                        </SelectOptions>
-                                    </Select>
-                                </FormItem>
-                            </AntDesign.Col>
-                        </Row>
-                    </StandardFormRow>
-                </Form>
-            </Card>
-            <br />
-           @* <AntList TItem="Ingredient"
-                     Grid="_listGridType"
-                     DataSource="_fakeList">
-                <ListItem NoFlex>
-                    <Card Hoverable
-                          BodyStyle="padding-bottom: 20px;"
-                          Actions="Actions">
-                        <CardMeta>
-                            <TitleTemplate>
-                                @context.Title
-                            </TitleTemplate>
-                        </CardMeta>
-                    </Card>
-                </ListItem>
-            </AntList>
-            *@
-        </div>
-    </ChildContent>
-</PageContainer>
-            @code
-            {
-    private static readonly RenderFragment Download =@<AntDesign.Tooltip Title="@("下载")">
+        <Content>
+            <Mentions Placeholder="please enter @@" @bind-Value="_mentionedIngredients">
+                @foreach (var ingredient in _ingredients)
+                {
+                    <MentionsOption Value="@ingredient.Name">@ingredient.Name</MentionsOption>
+                }
+            </Mentions>
+            <Button Style="margin-top: 10px" OnClick="AddSelectedProducts">Add selected products to my list</Button>
+        </Content>
+        <ChildContent>
+            <div class="filterCardList">
+                <Card>
+                    <Form Model="_ingredients"
+                          Layout="inline">
+                        <StandardFormRow Title="Category" Block Style="padding-bottom: 11px">
+                            <FormItem>
+                                <TagSelect Expandable Value="_selectCategories">
+                                    <TagSelectOption Value="cat1">Category 1</TagSelectOption>
+                                    <TagSelectOption Value="cat2">Category 2</TagSelectOption>
+                                    <TagSelectOption Value="cat3">Category 3</TagSelectOption>
+                                    <TagSelectOption Value="cat4">Category 4</TagSelectOption>
+                                    <TagSelectOption Value="cat5">Category 5</TagSelectOption>
+                                    <TagSelectOption Value="cat6">Category 6</TagSelectOption>
+                                    <TagSelectOption Value="cat7">Category 7</TagSelectOption>
+                                    <TagSelectOption Value="cat8">Category 8</TagSelectOption>
+                                    <TagSelectOption Value="cat9">Category 9</TagSelectOption>
+                                    <TagSelectOption Value="cat10">Category 10</TagSelectOption>
+                                    <TagSelectOption Value="cat11">Category 11</TagSelectOption>
+                                    <TagSelectOption Value="cat12">Category 12</TagSelectOption>
+                                </TagSelect>
+                            </FormItem>
+                        </StandardFormRow>
+                    </Form>
+                </Card>
+                <br />
+               <AntList TItem="IngredientDTO"
+                         Grid="_listGridType"
+                         DataSource="_userIngredients">
+                    <ListItem NoFlex>
+                        <Card Hoverable
+                              BodyStyle="padding-bottom: 20px;"
+                              Actions="Actions">
+                            <CardMeta>
+                                <TitleTemplate>
+                                    @context.Name
+                                </TitleTemplate>
+                            </CardMeta>
+                        </Card>
+                    </ListItem>
+                </AntList>
+            </div>
+        </ChildContent>
+    </PageContainer>
+}
+@code
+{
+    private static readonly RenderFragment Download =@<AntDesign.Tooltip Title="@("Download!")">
         <Icon Type="download" Theme="outline" />
     </AntDesign.Tooltip>;
 
     private static readonly IList<RenderFragment> Actions = new List<RenderFragment>
-{
+    {
         Download,
-    @<AntDesign.Tooltip Title="@("Edit")"><Icon Type="edit" Theme="outline" /></AntDesign.Tooltip>,
-    @<AntDesign.Tooltip Title="@("Share")"><Icon Type="share-alt" Theme="outline" /></AntDesign.Tooltip>,
-    @<Dropdown><Icon Type="ellipsis" Theme="outline" /></Dropdown>
+        @<AntDesign.Tooltip Title="@("Edit")"><Icon Type="edit" Theme="outline" /></AntDesign.Tooltip>,
+        @<AntDesign.Tooltip Title="@("Share")"><Icon Type="share-alt" Theme="outline" /></AntDesign.Tooltip>,
+        @<Dropdown><Icon Type="ellipsis" Theme="outline" /></Dropdown>
     };
-
-    private static RenderFragment FormatWan(int val)
-    {
-        if (val > 10000)
-        {
-            val = (int)Math.Floor((double)val / 10000);
-        }
-
-        return @<span>
-        @val
-        <span style="position: relative; top: -2px; font-size: 14px; font-style: normal; margin-left: 2px;">k</span>
-        </span>
-    ;
-    }
-    private string value{ get; set; }
-    List<string> _valueList { get; set; } = new List<string>(); 
-    private void ProductNameChanged(List<string> value)
-    {
-        Console.WriteLine(value + "!222");
-    }
-    private async void Click()
-    {
-        await Swal.FireAsync(value);
-    }
 }
