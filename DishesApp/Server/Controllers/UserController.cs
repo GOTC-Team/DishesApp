@@ -23,19 +23,6 @@ namespace DishesApp.Server.Controllers
             _userManager = userManager;
             _configuration = configuration;
         }
-        [Route("get-users")]
-        [HttpGet]
-        public List<UserDTO> GetUsersAsync()
-        {
-            var usersArray = _userManager.Users.ToArray();
-            List<UserDTO> users = new List<UserDTO>();
-            foreach (var user in usersArray)
-            {
-                users.Add(new UserDTO() { EmailAdress = user.Email, UserName = user.UserName });
-            }
-            
-            return users;
-        }
         [Route("register")]
         [AllowAnonymous]
         [HttpPost]
@@ -43,12 +30,10 @@ namespace DishesApp.Server.Controllers
         {
             string userName = user.UserName;
             string password = user.Password;
-            string email = user.EmailAdress;
 
             ApplicationUser identityUser = new ApplicationUser()
             {
                 UserName = userName,
-                Email = email
             };
             IdentityResult userIdentityResult = await _userManager.CreateAsync(identityUser, password);
             IdentityResult roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "Administrator");
@@ -98,7 +83,6 @@ namespace DishesApp.Server.Controllers
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, identityUser.Email),
                 new Claim(JwtRegisteredClaimNames.Actort, identityUser.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, identityUser.Id)

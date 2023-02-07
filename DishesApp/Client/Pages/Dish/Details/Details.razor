@@ -24,7 +24,10 @@
                         {
                             @foreach (var tag in _meal.strTags.Split(','))
                             {
-                                <Tag Style="margin:1px" PresetColor="PresetColor.Yellow">@tag</Tag>
+                                @if (!String.IsNullOrEmpty(tag))
+                                {
+                                    <Tag Style="margin:1px" PresetColor="PresetColor.Yellow">@tag</Tag>
+                                }
                             }
                         }
                         @if (!String.IsNullOrWhiteSpace(_meal.strArea))

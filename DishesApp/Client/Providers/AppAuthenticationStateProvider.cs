@@ -52,7 +52,6 @@ namespace Client.Providers
         {
             IList<Claim> claims = jwtSecurityToken.Claims.ToList();
             // The value of tokenContent. Subject is the user's email.
-            claims.Add(new Claim(ClaimTypes.Email, jwtSecurityToken.Subject));
             claims.Add(new Claim(ClaimTypes.Name, jwtSecurityToken.Actor));
             return claims;
         }
