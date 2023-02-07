@@ -29,7 +29,6 @@ namespace DishesApp.Server.Controllers
         {
             var usersArray = _userManager.Users.ToArray();
             List<UserDTO> users = new List<UserDTO>();
-            int counter = 0;
             foreach (var user in usersArray)
             {
                 users.Add(new UserDTO() { EmailAdress = user.Email, UserName = user.UserName });

@@ -20,17 +20,22 @@ namespace DishesApp.Server.Controllers
         }
         [Route("get-all-ingredients")]
         [HttpGet]
-        public List<Ingredient> GetUsersAsync()
+        public async Task<ActionResult<List<IngredientDTO>>> GetAllIngredients()
         {
-            return _dbManager.Ingredients.ToList();
+           var ingredients = from ingredient in _dbManager.Ingredients
+                   select new IngredientDTO
+                   {
+                       Name = ingredient.Name
+                   };
+            return await ingredients.ToListAsync();
         }
         [Route("get-user-ingredients")]
         [HttpGet]
-        public async Task<ActionResult<List<IngredientDTO>>> GetUserIngredients(string userId)
+        public async Task<ActionResult<List<IngredientDTO>>> GetUserIngredients(string userName)
         {
-            var ingredients = from user in _dbManager.Users.Where(u => u.Id == userId)
+            var ingredients = from user in _dbManager.Users.Where(u => u.UserName == userName)
                               from ingredient in _dbManager.Ingredients.Where(i => i.ApplicationUsers
-                              .Where(u => u.Id == userId).First().Id == userId )
+                              .Where(u => u.UserName == userName).First().UserName == userName)
                               select new IngredientDTO
                               {
                                   Name = ingredient.Name
@@ -39,15 +44,22 @@ namespace DishesApp.Server.Controllers
         }
         [Route("add-ingredient-to-user")]
         [HttpPost]
-        public async Task<IActionResult> AddIngredientToUser(string userId, string ingredientName)
+        public async Task<IActionResult> AddIngredientToUser([FromBody] UserNameIngredient userNameIngredient)
         {
-            if(!String.IsNullOrWhiteSpace(ingredientName))
+            if (!String.IsNullOrWhiteSpace(userNameIngredient.UserName) && !String.IsNullOrWhiteSpace(userNameIngredient.IngredientName))
             {
-                var user = await _dbManager.Users.Where(u => u.Id == userId).Include(p => p.Ingredients).FirstAsync();
-                var existingIngredient = await _dbManager.Ingredients.SingleAsync(i => i.Name == ingredientName);
-                user.Ingredients?.Add(existingIngredient);
-                await _dbManager.SaveChangesAsync();
-                return Ok();
+                var user = await _dbManager.Users.Where(u => u.UserName == userNameIngredient.UserName).Include(p => p.Ingredients).FirstAsync();
+                var existingIngredient = _dbManager.Ingredients.Where(i => i.Name == userNameIngredient.IngredientName.Trim()).FirstOrDefault();
+                if(existingIngredient != null)
+                {
+                    user.Ingredients?.Add(existingIngredient);
+                    await _dbManager.SaveChangesAsync();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             else
             {
