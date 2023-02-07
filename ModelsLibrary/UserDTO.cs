@@ -14,9 +14,6 @@ namespace ModelsLibrary
         public string? UserName { get; set; }
 
         [Required]
-        public string? EmailAdress { get; set; }
-
-        [Required]
         public string? Password { get; set; }
     }
 }

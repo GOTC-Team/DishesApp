@@ -3,21 +3,11 @@
 @page "/user/login"
 
 <div class="main__b__0">
-    <div>
-        <h3>SashaFPV</h3>
-        <h3>sasha_fpv@example.com</h3>
-        <h3>SashaFPV_123</h3>
-    </div>
     <div class="login">
         <Form Model="@_userToSignIn" OnFinish="SignInUser">
             <FormItem>
                 <AntDesign.Input Placeholder="Username" Size="large" @bind-Value="@_userToSignIn.UserName">
                     <Prefix><Icon Type="user" /></Prefix>
-                </AntDesign.Input>
-            </FormItem>
-            <FormItem>
-                <AntDesign.Input Placeholder="Email" Size="large" @bind-Value="@_userToSignIn.EmailAdress" Type="email">
-                    <Prefix><Icon Type="mail" /></Prefix>
                 </AntDesign.Input>
             </FormItem>
             <FormItem>
