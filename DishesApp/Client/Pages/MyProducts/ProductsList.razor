@@ -3,15 +3,17 @@
 @layout Client.BasicLayout
 @page "/my-products"
 @using Client.Pages.List
-@using ModelsLibrary.JsonModels;
+@using ModelsLibrary.JsonModels
 @inject SweetAlertService Swal
+@inject IMessageService _message
+
 @if (!_isAuthenticated)
 {
     NavigationManager.NavigateTo("/exception/403");
 }
 else
 {
-    <PageContainer Title="Search">
+    <PageContainer Title="My Products">
         <Breadcrumb>
             <Breadcrumb>
                 <BreadcrumbItem>My Products</BreadcrumbItem>
@@ -19,6 +21,7 @@ else
             </Breadcrumb>
         </Breadcrumb>
         <Content>
+            <h3>Here you can check your products or add new. Just start with @@ tag. Try it.</h3>
             <Mentions Placeholder="please enter @@" @bind-Value="_mentionedIngredients">
                 @foreach (var ingredient in _ingredients)
                 {
@@ -29,42 +32,31 @@ else
         </Content>
         <ChildContent>
             <div class="filterCardList">
-                <Card>
-                    <Form Model="_ingredients"
-                          Layout="inline">
-                        <StandardFormRow Title="Category" Block Style="padding-bottom: 11px">
-                            <FormItem>
-                                <TagSelect Expandable Value="_selectCategories">
-                                    <TagSelectOption Value="cat1">Category 1</TagSelectOption>
-                                    <TagSelectOption Value="cat2">Category 2</TagSelectOption>
-                                    <TagSelectOption Value="cat3">Category 3</TagSelectOption>
-                                    <TagSelectOption Value="cat4">Category 4</TagSelectOption>
-                                    <TagSelectOption Value="cat5">Category 5</TagSelectOption>
-                                    <TagSelectOption Value="cat6">Category 6</TagSelectOption>
-                                    <TagSelectOption Value="cat7">Category 7</TagSelectOption>
-                                    <TagSelectOption Value="cat8">Category 8</TagSelectOption>
-                                    <TagSelectOption Value="cat9">Category 9</TagSelectOption>
-                                    <TagSelectOption Value="cat10">Category 10</TagSelectOption>
-                                    <TagSelectOption Value="cat11">Category 11</TagSelectOption>
-                                    <TagSelectOption Value="cat12">Category 12</TagSelectOption>
-                                </TagSelect>
-                            </FormItem>
-                        </StandardFormRow>
-                    </Form>
-                </Card>
                 <br />
                <AntList TItem="IngredientDTO"
                          Grid="_listGridType"
                          DataSource="_userIngredients">
                     <ListItem NoFlex>
                         <Card Hoverable
-                              BodyStyle="padding-bottom: 20px;"
-                              Actions="Actions">
-                            <CardMeta>
-                                <TitleTemplate>
-                                    @context.Name
-                                </TitleTemplate>
-                            </CardMeta>
+                              BodyStyle="padding-bottom: 20px;">
+                              <ChildContent>
+                                 <CardMeta>
+                                    <TitleTemplate>
+                                        @context.Name
+                                    </TitleTemplate>
+                                 </CardMeta>
+                              </ChildContent>
+                            <ActionTemplate>
+                                <CardAction>
+                                    <Popconfirm Title="Are you sure delete this product from your list?"
+                                                OnConfirm="@(()=> {RemoveProduct(context.Name);})"
+                                                OnCancel="Cancel"
+                                                OkText="Yes"
+                                                CancelText="No">
+                                        <a><Icon Type="delete" /></a>
+                                    </Popconfirm>
+                                </CardAction>
+                            </ActionTemplate>
                         </Card>
                     </ListItem>
                 </AntList>
@@ -74,15 +66,13 @@ else
 }
 @code
 {
-    private static readonly RenderFragment Download =@<AntDesign.Tooltip Title="@("Download!")">
-        <Icon Type="download" Theme="outline" />
-    </AntDesign.Tooltip>;
+    private static readonly RenderFragment Delete =
+        @<AntDesign.Tooltip Title="@("Delete")">
+        <Icon Type="delete" Theme="outline" />
+        </AntDesign.Tooltip>;
 
     private static readonly IList<RenderFragment> Actions = new List<RenderFragment>
     {
-        Download,
-        @<AntDesign.Tooltip Title="@("Edit")"><Icon Type="edit" Theme="outline" /></AntDesign.Tooltip>,
-        @<AntDesign.Tooltip Title="@("Share")"><Icon Type="share-alt" Theme="outline" /></AntDesign.Tooltip>,
-        @<Dropdown><Icon Type="ellipsis" Theme="outline" /></Dropdown>
+        Delete
     };
 }

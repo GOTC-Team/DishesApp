@@ -5,6 +5,7 @@ using Client.Services;
 using Client.Static;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 using ModelsLibrary;
 using ModelsLibrary.JsonModels;
 using System;
@@ -38,6 +39,22 @@ namespace Client.Pages.MyProducts
         private string _mentionedIngredients { get; set; }
         private bool _isAuthenticated { get; set; }
         private string _userName { get; set; }
+        private void Cancel()
+        {
+            _message.Error("Okay, never mind :)");
+        }
+        private async void RemoveProduct(string productName)
+        {
+            HttpResponseMessage deleteResult = await HttpClient.DeleteAsync(APIEndpoints.s_removeIngredientFromUser + $"?names={_userName}&names={productName}");
+            if(deleteResult.IsSuccessStatusCode)
+            {
+                await LoadUserProducts();
+                await _message.Success($"{productName} deleted!");
+            }
+            else
+                await _message.Error($"Oops, try again.");
+
+        }
         private async void AddSelectedProducts()
         {
             string[] ingredients = _mentionedIngredients.Split(" @");
@@ -56,8 +73,8 @@ namespace Client.Pages.MyProducts
             }
             if(isSuccess)
             {
-                string res = ingredients.Length > 2 ? "Products was successfully added" : "Product was successfully added";
                 await LoadUserProducts();
+                string res = ingredients.Length > 2 ? "Products was successfully added" : "Product was successfully added";
                 await Swal.FireAsync(res);
             }
         }
@@ -87,6 +104,7 @@ namespace Client.Pages.MyProducts
                 foreach (var ingredient in userIngredientsResult)
                     _userIngredients.Add(ingredient);
             }
+            StateHasChanged();
         }
     }
 }
