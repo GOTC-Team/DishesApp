@@ -115,4 +115,13 @@ namespace Client.Models.MyModels
         public List<(string, string)> IndgridientsForDetails { get; set; } = new List<(string, string)>();
         public List<string> Indgridients { get; set; } = new List<string>();
     }
+    public class Meals
+    {
+        public Meals()
+        {
+            MealsList = new List<Meal>();
+        }
+        [JsonPropertyName("meals")]
+        public List<Meal> MealsList { get; set; }
+    }
 }
