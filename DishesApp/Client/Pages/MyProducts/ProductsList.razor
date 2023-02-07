@@ -33,7 +33,9 @@ else
         <ChildContent>
             <div class="filterCardList">
                 <br />
-               <AntList TItem="IngredientDTO"
+                @if (_userIngredients.Count > 0)
+                {
+                    <AntList TItem="IngredientDTO"
                          Grid="_listGridType"
                          DataSource="_userIngredients">
                     <ListItem NoFlex>
@@ -59,7 +61,12 @@ else
                             </ActionTemplate>
                         </Card>
                     </ListItem>
-                </AntList>
+                            </AntList>
+                }
+                else
+                {
+                    <Empty/>
+                }
             </div>
         </ChildContent>
     </PageContainer>

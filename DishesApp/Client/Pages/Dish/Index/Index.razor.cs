@@ -25,6 +25,7 @@ namespace Client.Pages.Dashboard.Analysis
         private string _selectedCategoryName { get; set; }
         private List<string> _selectedCategoriesNames = new List<string>();
         IList<Meal> _meals = new List<Meal>();
+        IList<Meal> _paginatedMeals = new List<Meal>();
         private List<IngredientDTO> _userIngredients = new List<IngredientDTO>();
         public List<string> CategoryMember { get; set; } = new List<string>();
         private readonly ListGridType _listGridType = new ListGridType
@@ -51,6 +52,7 @@ namespace Client.Pages.Dashboard.Analysis
         private IList<ListItemDataType> _fakeList = new List<ListItemDataType>();
         private async Task HandleCategoryItemsChange(IEnumerable<string> selectedCategories)
         {
+
             if (selectedCategories != null)
             {
                 _selectedCategoriesNames = selectedCategories.ToList();
@@ -74,6 +76,7 @@ namespace Client.Pages.Dashboard.Analysis
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            _isLoading = true;
             var user = (await AuthenticationState).User;
             if (user.Identity.IsAuthenticated == true)
             {
@@ -87,59 +90,15 @@ namespace Client.Pages.Dashboard.Analysis
             {
                 foreach (var category in resultCategories.CategoriesList)
                     _categories.CategoriesList.Add(new Category() { strCategory = category.strCategory });
-                _selectedCategoryName = _categories.CategoriesList[0].strCategory;
+                _selectedCategoryName = _categories.CategoriesList[1].strCategory;
             }
             // Meals list
-            var resultMeals = await _httpClient.GetFromJsonAsync<Meals>("https://www.themealdb.com/api/json/v1/1/search.php?f=a");
-            if (resultMeals != null)
-            {
-                foreach (var meal in resultMeals.MealsList)
-                {
-                    _meals.Add(new Meal()
-                    {
-                        idMeal = meal.idMeal,
-                        dateModified = meal.dateModified,
-                        strArea = meal.strArea,
-                        strCategory = meal.strCategory,
-                        strCreativeCommonsConfirmed = meal.strCreativeCommonsConfirmed,
-                        strDrinkAlternate = meal.strDrinkAlternate,
-                        strImageSource = meal.strImageSource,
-                        strInstructions = meal.strInstructions,
-                        strMeal = meal.strMeal,
-                        strMealThumb = meal.strMealThumb,
-                        strSource = meal.strSource,
-                        strTags = meal.strTags,
-                        strYoutube = meal.strYoutube,
-                        Indgridients = new List<string>()
-                        {
-                            meal.strIngredient1,
-                            meal.strIngredient2,
-                            meal.strIngredient3,
-                            meal.strIngredient4,
-                            meal.strIngredient5,
-                            meal.strIngredient6,
-                            meal.strIngredient7,
-                            meal.strIngredient8,
-                            meal.strIngredient9,
-                            meal.strIngredient10,
-                            meal.strIngredient11,
-                            meal.strIngredient12,
-                            meal.strIngredient13,
-                            meal.strIngredient14,
-                            meal.strIngredient15,
-                            meal.strIngredient16,
-                            meal.strIngredient17,
-                            meal.strIngredient18,
-                            meal.strIngredient19,
-                            meal.strIngredient20
-                        }
-                    });
-                }
-            }
-
+            await FindMeals();
+            _isLoading = false;
         }
         private async Task FindMeals()
         {
+            _isLoading = true;
             // Meals list
             List<int> mealsIdsList = new List<int>();
             var resultMealsIds = await _httpClient.GetFromJsonAsync<Meals>($"https://www.themealdb.com/api/json/v1/1/filter.php?c={_selectedCategoryName}");
@@ -200,10 +159,19 @@ namespace Client.Pages.Dashboard.Analysis
                         }
                     }
                 }
+                // For displaying by pagination
+                _currentPage = 1;
+                _paginatedMeals = new List<Meal>();
+                for (int i = 0; i < _countOfMealsDisplayOnPage && i < _meals.Count; i++)
+                {
+                    _paginatedMeals.Add(_meals[i]);
+                }
             }
+            _isLoading = false;
         }
         private async Task LoadUserProducts()
         {
+            _isLoading = true;
             var userIngredientsResult = await _httpClient.GetFromJsonAsync<List<IngredientDTO>>(APIEndpoints.s_getUserIngredients + $"?userName={_userName}");
             _userIngredients = new List<IngredientDTO>();
             if (userIngredientsResult != null)
@@ -212,6 +180,7 @@ namespace Client.Pages.Dashboard.Analysis
                     _userIngredients.Add(ingredient);
             }
             StateHasChanged();
+            _isLoading = false;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Client.Pages.User
         [Inject] HttpClient HttpClient { get; set; }
         [Inject] NavigationManager _navigationManager { get; set; }
         [Inject] SweetAlertService Swal { get; set; }
-        private UserDTO _userToRegister = new UserDTO() { UserName = "UserName", EmailAdress = "user@example.com", Password = "Password1!" };
+        private UserDTO _userToRegister = new UserDTO();
         private bool _registerSuccessful = false;
         private bool _attemptToRegisterFailed = false;
         private string? _attemptToRegisterFailedErrorMessage = String.Empty;
