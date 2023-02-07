@@ -26,45 +26,79 @@
         </Form>
     </Card>
     <div class="cardList">
-        <AntList TItem="Meal"
-                 Grid="_listGridType"
-                 DataSource="_meals">
-            <ListItem NoFlex>
-                <a @onclick='() => _navigationManager.NavigateTo("/dishes/details/" + context.idMeal)'>
-                    <Card Class="card" Hoverable Bordered Style="margin:5px">
-                        <Cover>
-                            <img alt="@context.strMeal" src="@context.strMealThumb" />
-                        </Cover>
-                        <ChildContent>
-                            <CardMeta>
-                                <DescriptionTemplate>@context.strTags</DescriptionTemplate>
-                                <TitleTemplate>@context.strMeal</TitleTemplate>
-                            </CardMeta>
-                            <div class="cardItemContent">
-                                @if(!String.IsNullOrWhiteSpace(context.strArea))
-                                {
-                                    <span>Area: @context.strArea</span> <br/>
-                                }
-                                @if(context.Indgridients.Count > 0)
-                                {
-                                    @foreach (var tag in context.Indgridients)
-                                    {
-                                        @if(!String.IsNullOrWhiteSpace(tag) && _isAuthenticated && _userIngredients.Any(i => i.Name == tag) 
-                                        || !_isAuthenticated && !String.IsNullOrEmpty(tag))
+        <Spin Tip="Loading..." Spinning=_isLoading>
+            @if(_paginatedMeals.Count > 0)
+            {
+                <AntList TItem="Meal"
+                     Grid="_listGridType"
+                     DataSource="_paginatedMeals">
+                    <ListItem NoFlex>
+                    <a @onclick='() => _navigationManager.NavigateTo("/dishes/details/" + context.idMeal)'>
+                        <Card Class="card" Hoverable Bordered Style="margin:5px">
+                            <Cover>
+                                <img alt="@context.strMeal" src="@context.strMealThumb" />
+                            </Cover>
+                            <ChildContent>
+                                <CardMeta>
+                                    <DescriptionTemplate>@context.strTags</DescriptionTemplate>
+                                    <TitleTemplate>@context.strMeal</TitleTemplate>
+                                </CardMeta>
+                                <div class="cardItemContent">
+                                    @if (!String.IsNullOrWhiteSpace(context.strArea))
                                         {
-                                            <Tag Style="margin:1px" PresetColor="PresetColor.Green">@tag</Tag>
+                                            <span>Area: @context.strArea</span> <br />
                                         }
-                                        else if (!String.IsNullOrWhiteSpace(tag))
+                                        @if (context.Indgridients.Count > 0)
                                         {
-                                            <Tag Style="margin:1px" PresetColor="PresetColor.Red">@tag</Tag>
+                                            @foreach (var tag in context.Indgridients)
+                                            {
+                                                @if (!String.IsNullOrWhiteSpace(tag) && _isAuthenticated && _userIngredients.Any(i => i.Name == tag)
+                                               || !_isAuthenticated && !String.IsNullOrEmpty(tag))
+                                                {
+                                                    <Tag Style="margin:1px" PresetColor="PresetColor.Green">@tag</Tag>
+                                                }
+                                                else if (!String.IsNullOrWhiteSpace(tag))
+                                                {
+                                                    <Tag Style="margin:1px" PresetColor="PresetColor.Red">@tag</Tag>
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                            </div>
-                        </ChildContent>
-                    </Card>
-                </a>
-            </ListItem>
-        </AntList>
+                                    </div>
+                                </ChildContent>
+                            </Card>
+                        </a>
+                    </ListItem>
+                </AntList>
+            }
+            else
+            {
+                <Empty />
+            }
+            <Pagination ShowSizeChanger
+                        ShowTotal=showTotal
+                        Current="@_currentPage"
+                        OnShowSizeChange="OnShowSizeChange"
+                        OnChange="OnChange"
+                        DefaultCurrent="1"
+                        PageSizeOptions="_pageSizeOptions"
+                        Total="_meals.Count"/>
+        </Spin>
     </div>
 </div>
+@code {
+    private int _currentPage = 1;
+    private int _countOfMealsDisplayOnPage = 3;
+    private bool _isLoading = true;
+    Func<PaginationTotalContext, string> showTotal = ctx => $"Total {ctx.Total} meals";
+    private int[] _pageSizeOptions = new int[] { 3, 5, 10, 20 };
+    void OnChange(PaginationEventArgs args)
+    {
+        _currentPage = args.Page;
+        _paginatedMeals = _meals.Skip(_currentPage * _countOfMealsDisplayOnPage).Take(_countOfMealsDisplayOnPage).ToList();
+    }
+    private void OnShowSizeChange(PaginationEventArgs args)
+    {
+        var (current, pageSize) = args;
+        _countOfMealsDisplayOnPage = pageSize;
+    }
+}

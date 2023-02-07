@@ -49,7 +49,7 @@ namespace Client
                 => provider.GetRequiredService<AppAuthenticationStateProvider>());
             // Cute UI
             builder.Services.AddSweetAlert2();
-
+            // Cors Problem
             await builder.Build().RunAsync();
         }
     }

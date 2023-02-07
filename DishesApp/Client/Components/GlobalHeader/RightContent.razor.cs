@@ -35,8 +35,7 @@ namespace Client.Components
                 _userName = user.Identity.Name;
                 AvatarMenuItems = new AvatarMenuItem[]
                 {
-                    new() { Key = "center", IconType = "user", Option = "user"},
-                    new() { Key = "setting", IconType = "setting", Option = "setting"},
+                    new() { Key = "my-products", IconType = "profile", Option = "My products"},
                     new() { IsDivider = true },
                     new() { Key = "logout", IconType = "logout", Option = "logout" }
                 };
@@ -54,11 +53,8 @@ namespace Client.Components
         {
             switch (item.Key)
             {
-                case "center":
-                    NavigationManager.NavigateTo("/account/center");
-                    break;
-                case "setting":
-                    NavigationManager.NavigateTo("/account/settings");
+                case "my-products":
+                    NavigationManager.NavigateTo("/my-products");
                     break;
                 case "logout":
                     await SignOut();
