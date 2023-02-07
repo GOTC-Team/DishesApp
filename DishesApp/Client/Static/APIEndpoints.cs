@@ -5,7 +5,7 @@
 #if DEBUG
         internal const string ServerBaseUrl = "https://localhost:7024";
 #else
-        internal const string ServerBaseUrl = "https://localhost:7024";
+        internal const string ServerBaseUrl = "https://localhost:7024"; // https://dishesapp.azurewebsites.net
 #endif
         internal readonly static string s_register = $"{ServerBaseUrl}/api/user/register";
         internal readonly static string s_signIn = $"{ServerBaseUrl}/api/user/signin";

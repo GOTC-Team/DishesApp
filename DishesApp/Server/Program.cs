@@ -59,7 +59,6 @@ if (app.Environment.IsDevelopment())
     SeedAdministratorRoleAndUser.Seed(roleManager, userManager);
     //app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Server v1"));
     app.UseWebAssemblyDebugging();
 }
 else
@@ -68,6 +67,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Server v1"));
 // For updating css or javascript
 app.UseStaticFiles(new StaticFileOptions()
 {
