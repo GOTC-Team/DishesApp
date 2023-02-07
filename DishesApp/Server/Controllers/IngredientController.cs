@@ -66,6 +66,31 @@ namespace DishesApp.Server.Controllers
                 return BadRequest();
             }
         }
-
+        [Route("remove-ingredient")]
+        [HttpDelete]
+        public async Task<IActionResult> RemoveIngredient([FromQuery] string[] names)
+        {
+            string userName = names[0];
+            string ingredientName = names[1];
+            if (!String.IsNullOrWhiteSpace(userName) && !String.IsNullOrWhiteSpace(ingredientName))
+            {
+                var user = await _dbManager.Users.Where(u => u.UserName == userName).Include(p => p.Ingredients).FirstAsync();
+                var existingIngredient = _dbManager.Ingredients.Where(i => i.Name == ingredientName.Trim()).FirstOrDefault();
+                if (existingIngredient != null)
+                {
+                    user.Ingredients?.Remove(existingIngredient);
+                    await _dbManager.SaveChangesAsync();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

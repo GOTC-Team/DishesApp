@@ -3,7 +3,7 @@
     "path": "/",
     "name": "Dishes",
     "key": "dishes",
-    "icon": "profile"
+    "icon": "coffee"
   },
   {
     "path": "/my-products",
@@ -43,83 +43,6 @@
         "path": "/list/card-list",
         "name": "Card List",
         "key": "list.card-list"
-      }
-    ]
-  },
-  {
-    "path": "/profile",
-    "name": "Profile",
-    "key": "profile",
-    "icon": "profile",
-    "children": [
-      {
-        "path": "/profile/basic",
-        "name": "Basic Profile",
-        "key": "profile.basic"
-      },
-      {
-        "path": "/profile/advanced",
-        "name": "Advanced Profile",
-        "key": "profile.advanced"
-      }
-    ]
-  },
-  {
-    "path": "/result",
-    "name": "Result Pages",
-    "key": "result",
-    "icon": "check-circle",
-    "children": [
-      {
-        "path": "/result/success",
-        "name": "Success Page",
-        "key": "result.success"
-      },
-      {
-        "path": "/result/fail",
-        "name": "Failed page",
-        "key": "result.fail"
-      }
-    ]
-  },
-  {
-    "path": "/exception",
-    "name": "Error Pages",
-    "key": "exception",
-    "icon": "exception",
-    "children": [
-      {
-        "path": "/exception/403",
-        "name": "403",
-        "key": "exception.403"
-      },
-      {
-        "path": "/exception/404",
-        "name": "404",
-        "key": "exception.404"
-      },
-      {
-        "path": "/exception/500",
-        "name": "500",
-        "key": "exception.500"
-      }
-    ]
-  },
-  {
-    "path": "/account",
-    "name": "Account",
-    "key": "account",
-    "icon": "user",
-    "children": [
-      {
-        "path": "/account/center",
-        "name": "Account Center",
-        "key": "account.center"
-      },
-      {
-        "path": "/account/settings",
-        "name": "Personal settings",
-        "key": "account.settings"
       }
     ]
   }

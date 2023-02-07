@@ -13,5 +13,6 @@
         internal readonly static string s_getAllIngredients = $"{ServerBaseUrl}/api/ingredient/get-all-ingredients";
         internal readonly static string s_getUserIngredients = $"{ServerBaseUrl}/api/ingredient/get-user-ingredients";
         internal readonly static string s_addIngredientToUser = $"{ServerBaseUrl}/api/ingredient/add-ingredient-to-user";
+        internal readonly static string s_removeIngredientFromUser = $"{ServerBaseUrl}/api/ingredient/remove-ingredient";
     }
 }

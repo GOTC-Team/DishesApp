@@ -11,7 +11,7 @@
         <Form Model="_model"
               Layout="inline">
             <StandardFormRow Title="Categories">
-                <SimpleSelect Mode="multiple" Style="width:inherit; min-width:150px" OnSelectedItemsChanged="HandleCategoryItemsChange">
+                <SimpleSelect Mode="multiple" Style="width:100%; min-width:150px" OnSelectedItemsChanged="HandleCategoryItemsChange">
                     <SelectOptions>
                         @foreach (var category in _categories.CategoriesList)
                         {
